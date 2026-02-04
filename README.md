@@ -296,8 +296,8 @@ docker run -d --name a2n -p 5000:5000 -v a2n-data:/data sudoku1016705/a2n:latest
 ## 📚 Documentation
 
 - **Website:** [https://a2n.io](https://a2n.io)
-- **Documentation:** [https://docs.a2n.io](https://docs.a2n.io)
-- **Discord Community:** [Join Discord](https://discord.gg/a2n)
+- **Documentation:** [https://docs.a2n.io](https://www.a2n.io/tutorials)
+- **Discord Community:** [Join Discord](https://discord.gg/mYH3ynfvhr)
 
 ---
 

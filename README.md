@@ -48,7 +48,7 @@ docker run -d \
   sudoku1016705/a2n:latest
 ```
 
-Then open **http://localhost:5000** in your browser.
+Then open **http://localhost:8080** in your browser.
 
 ### Option 2: Docker Compose
 
@@ -321,3 +321,4 @@ Built with ❤️ using:
 <p align="center">
   <strong>⭐ Star this repo if you find it useful!</strong>
 </p>
+

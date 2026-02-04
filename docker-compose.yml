@@ -5,7 +5,7 @@ services:
     image: sudoku1016705/a2n:latest
     container_name: a2n
     ports:
-      - "5000:5000"
+      - "8080:8080"
     volumes:
       - a2n-data:/data
     environment:

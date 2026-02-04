@@ -43,7 +43,7 @@ The easiest way to run a2n.io is with our all-in-one Docker image that includes 
 ```bash
 docker run -d \
   --name a2n \
-  -p 5000:5000 \
+  -p 8080:8080 \
   -v a2n-data:/data \
   sudoku1016705/a2n:latest
 ```
@@ -62,7 +62,7 @@ services:
     image: sudoku1016705/a2n:latest
     container_name: a2n
     ports:
-      - "5000:5000"
+      - "8080:8080"
     volumes:
       - a2n-data:/data
     environment:
@@ -105,7 +105,7 @@ For production deployments, we recommend using an external PostgreSQL database:
 ```bash
 docker run -d \
   --name a2n \
-  -p 5000:5000 \
+  -p 8080:8080 \
   -e DATABASE_URL="postgresql://user:password@host:5432/a2n" \
   -e REDIS_URL="redis://host:6379" \
   -e ENCRYPTION_KEY="your-32-character-secret-key-here" \
@@ -253,7 +253,7 @@ docker stop a2n && docker rm a2n
 # Start new container (data persists in volume)
 docker run -d \
   --name a2n \
-  -p 5000:5000 \
+  -p 8080:8080 \
   -v a2n-data:/data \
   sudoku1016705/a2n:latest
 ```
@@ -288,7 +288,7 @@ docker exec a2n pg_isready
 # Warning: This deletes all data
 docker stop a2n && docker rm a2n
 docker volume rm a2n-data
-docker run -d --name a2n -p 5000:5000 -v a2n-data:/data sudoku1016705/a2n:latest
+docker run -d --name a2n -p 8080:8080 -v a2n-data:/data sudoku1016705/a2n:latest
 ```
 
 ---

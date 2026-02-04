@@ -9,7 +9,7 @@ All notable changes to a2n.io will be documented in this file.
 **Core Features:**
 - Visual workflow builder with drag-and-drop interface
 - 42+ nodes across 8 categories
-- AI Agent support with OpenAI, Anthropic, Google, and Groq
+- AI Agent support with OpenAI, Anthropic, Google, and Grok
 - Real-time workflow execution with live logs
 - Self-hosted deployment with Docker
 
@@ -21,7 +21,7 @@ All notable changes to a2n.io will be documented in this file.
 
 **Integrations:**
 - Triggers: Webhook, Schedule, Manual
-- AI: OpenAI, Anthropic Claude, Google Gemini, Groq
+- AI: OpenAI, Anthropic Claude, Google Gemini, Grok
 - Communication: Email, Slack, Discord, Telegram, Twilio
 - Databases: PostgreSQL, MySQL, MongoDB, Redis
 - Social: Twitter, Facebook, Reddit, LinkedIn

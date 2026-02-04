@@ -42,7 +42,7 @@ services:
       # OPENAI_API_KEY: "sk-..."
       # ANTHROPIC_API_KEY: "sk-ant-..."
       # GOOGLE_AI_API_KEY: "..."
-      # GROQ_API_KEY: "gsk_..."
+      # GROK_API_KEY: "gsk_..."
       
     restart: unless-stopped
     healthcheck:

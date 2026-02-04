@@ -129,7 +129,7 @@ docker run -d \
 | **OpenAI** | GPT-4, GPT-3.5 for text generation, chat, embeddings |
 | **Anthropic Claude** | Claude 3 models for advanced AI tasks |
 | **Google Gemini** | Gemini Pro for multimodal AI |
-| **Groq** | Ultra-fast LLM inference |
+| **Grok** | Ultra-fast LLM inference |
 | **AI Agent** | Autonomous AI agents with tool use |
 
 ### Communication

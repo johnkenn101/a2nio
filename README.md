@@ -1,7 +1,7 @@
 # a2n.io - Workflow Automation & AI Agents Platform
 
 <p align="center">
-  <img src="https://a2n.io/logo.png" alt="a2n.io Logo" width="200"/>
+  <img src="a2n-logo.png" alt="a2n.io Logo" width="200"/>
 </p>
 
 <p align="center">

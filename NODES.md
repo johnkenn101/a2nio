@@ -116,8 +116,8 @@ Use Google's Gemini AI models.
 
 ---
 
-### Groq
-Ultra-fast LLM inference with Groq.
+### Grok
+Ultra-fast LLM inference with Grok.
 
 **Supported Models:**
 - Llama 3

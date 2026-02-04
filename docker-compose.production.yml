@@ -1,0 +1,133 @@
+version: '3.8'
+
+# ============================================
+# PRODUCTION DEPLOYMENT EXAMPLE
+# ============================================
+# This configuration is optimized for production use with:
+# - External PostgreSQL database
+# - External Redis
+# - Traefik reverse proxy with automatic HTTPS
+# - Proper secrets management
+
+services:
+  a2n:
+    image: sudoku1016705/a2n:latest
+    container_name: a2n
+    environment:
+      # External database (required for production)
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}"
+      REDIS_URL: "redis://redis:6379"
+      
+      # Security keys (REQUIRED for production)
+      ENCRYPTION_KEY: "${ENCRYPTION_KEY}"
+      JWT_SECRET: "${JWT_SECRET}"
+      
+      # Self-hosted mode
+      SELF_HOSTED: "true"
+      
+      # Optional: AI API keys
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+      
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.a2n.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.a2n.entrypoints=websecure"
+      - "traefik.http.routers.a2n.tls.certresolver=letsencrypt"
+      - "traefik.http.services.a2n.loadbalancer.server.port=5000"
+    networks:
+      - a2n-network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: a2n-postgres
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - a2n-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: a2n-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - a2n-network
+
+  traefik:
+    image: traefik:v2.10
+    container_name: a2n-traefik
+    command:
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "traefik-certs:/letsencrypt"
+    restart: unless-stopped
+    networks:
+      - a2n-network
+
+volumes:
+  postgres-data:
+  redis-data:
+  traefik-certs:
+
+networks:
+  a2n-network:
+    driver: bridge
+
+# ============================================
+# SETUP INSTRUCTIONS
+# ============================================
+#
+# 1. Create a .env file with:
+#
+#    DOMAIN=your-domain.com
+#    ACME_EMAIL=your-email@example.com
+#    
+#    POSTGRES_USER=a2n
+#    POSTGRES_PASSWORD=your-secure-password
+#    POSTGRES_DB=a2n
+#    
+#    ENCRYPTION_KEY=your-64-char-hex-key
+#    JWT_SECRET=your-jwt-secret
+#    
+#    OPENAI_API_KEY=sk-...
+#    ANTHROPIC_API_KEY=sk-ant-...
+#
+# 2. Generate secure keys:
+#    openssl rand -hex 32  # For ENCRYPTION_KEY
+#    openssl rand -hex 32  # For JWT_SECRET
+#
+# 3. Start the stack:
+#    docker-compose -f docker-compose.production.yml up -d
+#
+# 4. Access your instance at https://your-domain.com

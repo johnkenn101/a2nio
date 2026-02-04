@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  a2n:
+    image: sudoku1016705/a2n:latest
+    container_name: a2n
+    ports:
+      - "5000:5000"
+    volumes:
+      - a2n-data:/data
+    environment:
+      # ============================================
+      # SELF-HOSTED MODE (Default: Unlimited)
+      # ============================================
+      SELF_HOSTED: "true"
+      
+      # ============================================
+      # SECURITY (Optional but Recommended)
+      # ============================================
+      # Encryption key for storing credentials securely
+      # Generate with: openssl rand -hex 32
+      # ENCRYPTION_KEY: "your-64-character-hex-key-here"
+      
+      # JWT secret for session tokens
+      # Generate with: openssl rand -hex 32
+      # JWT_SECRET: "your-jwt-secret-here"
+      
+      # ============================================
+      # EXTERNAL DATABASE (Optional)
+      # ============================================
+      # By default, a2n uses embedded PostgreSQL and Redis
+      # For production, you can use external databases:
+      #
+      # DATABASE_URL: "postgresql://user:password@host:5432/a2n"
+      # REDIS_URL: "redis://host:6379"
+      
+      # ============================================
+      # AI PROVIDER API KEYS (Optional)
+      # ============================================
+      # Set these to use AI nodes without configuring in UI
+      #
+      # OPENAI_API_KEY: "sk-..."
+      # ANTHROPIC_API_KEY: "sk-ant-..."
+      # GOOGLE_AI_API_KEY: "..."
+      # GROQ_API_KEY: "gsk_..."
+      
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  a2n-data:
+    driver: local
+
+# ============================================
+# USAGE
+# ============================================
+# 
+# Start:
+#   docker-compose up -d
+#
+# View logs:
+#   docker-compose logs -f
+#
+# Stop:
+#   docker-compose down
+#
+# Update to latest:
+#   docker-compose pull
+#   docker-compose up -d
+#
+# Reset (WARNING: deletes all data):
+#   docker-compose down -v
+#   docker-compose up -d

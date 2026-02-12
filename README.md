@@ -241,22 +241,72 @@ The a2n.io Docker image is a unified, all-in-one solution:
 
 ## 🔄 Updating
 
-To update to the latest version:
+a2n.io supports **upgrades** - your workflows, credentials, and data are preserved automatically via the Docker volume. The app will also **notify you** of new versions with a toast message when you log in.
+
+### Upgrade to Latest Version
 
 ```bash
-# Pull latest image
+# 1. Pull the latest image (safe to run while container is running)
 docker pull sudoku1016705/a2n:latest
 
-# Stop and remove old container
+# 2. Stop and remove the old container (volume is preserved)
 docker stop a2n && docker rm a2n
 
-# Start new container (data persists in volume)
+# 3. Start new container with the same volume
 docker run -d \
   --name a2n \
   -p 8080:8080 \
   -v a2n-data:/data \
   sudoku1016705/a2n:latest
 ```
+
+> **💡 Zero data loss:** The `a2n-data` volume holds all your data (PostgreSQL, Redis, credentials, secrets). As long as you **don't** run `docker volume rm a2n-data`, everything is preserved across upgrades.
+
+### Upgrade to a Specific Version
+
+```bash
+docker stop a2n && docker rm a2n
+
+docker run -d \
+  --name a2n \
+  -p 8080:8080 \
+  -v a2n-data:/data \
+  sudoku1016705/a2n:1.0.3
+```
+
+Available version tags can be found on [Docker Hub](https://hub.docker.com/r/sudoku1016705/a2n/tags).
+
+### ⬇️ Downgrade to a Previous Version
+
+If you need to roll back to an earlier version:
+
+```bash
+# 1. Stop and remove the current container
+docker stop a2n && docker rm a2n
+
+# 2. Run the older version with the same volume
+docker run -d \
+  --name a2n \
+  -p 8080:8080 \
+  -v a2n-data:/data \
+  sudoku1016705/a2n:1.0.2
+```
+
+> **⚠️ Downgrade Notes:**
+> - Downgrading is safe for patch versions (e.g., 1.0.3 → 1.0.2).
+> - If a newer version introduced database schema changes (migrations), downgrading may cause issues. Check the release notes before downgrading across major or minor versions.
+> - As a precaution, you can **backup your volume** before upgrading:
+>   ```bash
+>   docker run --rm -v a2n-data:/data -v $(pwd):/backup alpine tar czf /backup/a2n-backup.tar.gz /data
+>   ```
+>   To restore from backup:
+>   ```bash
+>   docker run --rm -v a2n-data:/data -v $(pwd):/backup alpine sh -c "cd / && tar xzf /backup/a2n-backup.tar.gz"
+>   ```
+
+### 🔔 Automatic Update Notifications
+
+a2n.io checks Docker Hub for newer versions and notifies you with a toast message on login/signup when an update is available. This check runs every 6 hours and requires no configuration.
 
 ---
 

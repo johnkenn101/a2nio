@@ -28,7 +28,7 @@
 
 - 🔧 **Visual Workflow Builder** - Drag-and-drop interface to create complex automations
 - 🤖 **AI Agents** - Built-in AI capabilities powered by OpenAI, Anthropic, and more
-- 🔗 **30+ Integrations** - Connect to popular services and APIs
+- 🔗 **110+ Integrations** - Connect to popular services and APIs
 - ⚡ **Real-time Execution** - Watch your workflows run with live logs
 - 🏠 **Self-Hosted** - Your data stays on your infrastructure
 
@@ -114,81 +114,186 @@ docker run -d \
 
 ---
 
-## 🔌 Supported Nodes (30+)
+## 🔌 Supported Nodes (110+)
 
 ### Triggers
 | Node | Description |
 |------|-------------|
-| **Webhook Trigger** | Trigger workflows via HTTP requests |
-| **Schedule Trigger** | Run workflows on a cron schedule |
-| **Manual Trigger** | Start workflows manually |
+| **Webhook Trigger** | Trigger workflows via HTTP requests with authentication, custom responses, and path routing |
+| **Schedule Trigger** | Run workflows every day, hour, or custom interval |
+| **Manual Trigger** | Start workflows manually with a button click |
+| **Chat Message Trigger** | Trigger workflows from user chat messages — for use with AI nodes |
+| **Form Submission Trigger** | Generate webforms in a2n and pass their responses to the workflow |
 
 ### AI & LLM
 | Node | Description |
 |------|-------------|
-| **OpenAI** | GPT-4, GPT-3.5 for text generation, chat, embeddings |
-| **Anthropic Claude** | Claude 3 models for advanced AI tasks |
-| **Google Gemini** | Gemini Pro for multimodal AI |
-| **Grok** | Ultra-fast LLM inference |
-| **AI Agent** | Autonomous AI agents with tool use |
+| **OpenAI** | GPT-4, GPT-4o, GPT-3.5 for text generation, chat, images, audio, and video analysis |
+| **Grok AI** | xAI Grok models for text generation, chat, vision understanding, and image generation |
+| **AI Agent** | Autonomous AI agents with tool use — supports OpenAI, Anthropic (Claude), and Google Gemini providers |
+| **AI Prompt** | Send prompts to any LLM — supports OpenAI, Gemini, Claude, Grok, and custom endpoints |
+| **LLM Chain** | Send a prompt to an LLM — lighter than a full AI agent, ideal for simple prompt-to-output pipelines |
+| **MCP Protocol Tool** | Connect to MCP servers to access tools, resources, and prompts for AI agents (HTTP, SSE, STDIO) |
+| **MCP Client Tool** | Connect to an external MCP server and invoke its tools (HTTP Streamable and SSE) |
+| **Tavily Search** | AI-optimised web search via Tavily API with citation-ready results and content extraction |
+| **Chat Memory** | Buffer-window memory for AI agents — maintains sliding window of recent conversation messages |
+| **Sentiment Analyzer** | Classify text sentiment using an LLM with customizable categories and confidence scores |
+| **AI Summarizer** | Summarize long text using stuff, map-reduce, or refine strategies via LLM |
+| **Output Corrector** | Automatically fix AI-generated output that does not match the expected JSON schema |
+| **Schema Parser** | Enforce a JSON schema on AI agent output — validates and extracts structured data |
 
 ### Communication
 | Node | Description |
 |------|-------------|
-| **Email (SMTP)** | Send emails via any SMTP server |
-| **Slack** | Send messages to Slack channels |
-| **Discord** | Post messages to Discord webhooks |
-| **Telegram** | Send messages via Telegram bots |
-| **Twilio** | SMS and WhatsApp messaging |
+| **Send Email (SMTP)** | Send emails via any SMTP server with HTML/text support and attachments |
+| **Slack** | Send messages, manage channels, files, reactions, and user groups |
+| **Discord** | Send messages, manage channels, members, and webhooks |
+| **Telegram** | Send messages, photos, documents, media groups, and manage chats and bots |
+| **Twilio** | Send SMS, make calls, and manage Twilio communication services |
+
+### Email Marketing & Transactional
+| Node | Description |
+|------|-------------|
+| **Brevo** | Send transactional emails and manage contacts (formerly Sendinblue) |
+| **Mailgun** | Send transactional and bulk emails with template support |
+| **SendGrid** | Send transactional emails and manage contacts |
+| **Mandrill** | Send transactional emails through Mandrill (Mailchimp Transactional) |
+| **Mailchimp** | Manage audiences, members, campaigns, and tags |
+| **MailerLite** | Manage subscribers and groups |
+| **Postmark** | Send transactional emails through Postmark |
+| **ConvertKit** | Manage subscribers, tags, forms, and sequences |
+| **Mailjet** | Send transactional emails and SMS |
+| **ActiveCampaign** | Manage contacts, deals, tags, and lists |
+
+### CRM
+| Node | Description |
+|------|-------------|
+| **HubSpot** | Manage contacts, companies, deals, tickets, and engagements with upsert and SOQL search |
+| **Salesforce** | Manage leads, contacts, accounts, opportunities, cases, tasks, and custom objects |
+| **Pipedrive** | Manage deals, persons, organizations, activities, leads, notes, and products |
+| **Agile CRM** | Manage contacts, companies, and deals with tag and lead-score support |
+| **Copper** | Manage persons, companies, leads, opportunities, tasks, and projects |
+| **Freshworks CRM** | Manage contacts, accounts, deals, tasks, notes, and appointments (Freshsales) |
+| **Salesmate** | Manage companies, deals, and activities via session-token authenticated API |
+| **Keap** | Manage contacts, companies, notes, tags, emails, and e-commerce in Keap (Infusionsoft) |
+| **Affinity** | Manage persons, organizations, lists, and list entries for relationship intelligence |
+| **HighLevel** | Manage contacts, opportunities, tasks, and calendars in GoHighLevel |
 
 ### Data & APIs
 | Node | Description |
 |------|-------------|
-| **HTTP Request** | Make REST API calls to any service |
-| **GraphQL** | Execute GraphQL queries and mutations |
-| **PostgreSQL** | Query and update PostgreSQL databases |
-| **MySQL** | Connect to MySQL databases |
-| **MongoDB** | Work with MongoDB collections |
-| **Redis** | Cache and retrieve data |
+| **HTTP Request** | Make REST API calls to any service with full authentication support |
+| **Webhook Response** | Send a custom response back to the HTTP caller that triggered the workflow |
+| **Web Scraper** | Scrape web pages with geo-targeting, CAPTCHA bypass, and structured output |
+
+### Databases
+| Node | Description |
+|------|-------------|
+| **PostgreSQL** | Execute queries, insert, update, and delete rows in PostgreSQL |
+| **MySQL** | Execute queries, insert, update, and delete rows in MySQL |
+| **MongoDB** | Find, insert, update, and delete documents in MongoDB |
+| **Redis** | Get, set, delete keys, manage lists, and publish messages |
+| **Supabase** | Read, create, update, and delete rows in Supabase tables |
+| **CrateDB** | Run SQL queries against CrateDB distributed database |
+| **QuestDB** | Run queries against QuestDB time-series database |
+| **TimescaleDB** | Run SQL queries against TimescaleDB time-series database |
+| **Snowflake** | Run SQL queries against Snowflake Data Cloud |
+
+### Spreadsheets & No-Code Databases
+| Node | Description |
+|------|-------------|
+| **Google Sheets** | Read, write, append, update, and manage Google Sheets data |
+| **Airtable** | Interact with Airtable bases and records |
+| **NocoDB** | CRUD operations on NocoDB open-source Airtable alternative |
+| **Baserow** | CRUD operations on Baserow open-source database |
+| **SeaTable** | CRUD operations on SeaTable spreadsheet database |
+| **Stackby** | List, read, append, and delete records in Stackby |
+| **QuickBase** | Query, create, update, and delete records in QuickBase |
+| **Grist** | CRUD operations on Grist spreadsheet database |
+| **Coda** | CRUD operations on Coda document tables, list tables, and get formulas |
+| **Metabase** | Run questions, native queries, list databases and collections in Metabase |
+| **Data Table** | Permanently save and query data across workflow executions in structured tables |
 
 ### Social Media
 | Node | Description |
 |------|-------------|
-| **Twitter/X** | Post tweets, read timeline |
-| **Facebook** | Post to pages, read data |
-| **Reddit** | Create posts, read subreddits |
-| **LinkedIn** | Post updates, manage connections |
+| **Twitter/X** | Create, delete, search tweets, send DMs, and manage users and lists |
+| **Reddit** | Create posts, comments, and interact with Reddit communities |
+| **Facebook** | Create, read, update posts, comments, events, photos, and videos |
 
-### Productivity
+### Productivity & Docs
 | Node | Description |
 |------|-------------|
-| **Google Sheets** | Read/write spreadsheet data |
-| **Google Drive** | Upload, download, manage files |
-| **Notion** | Create pages, update databases |
-| **Airtable** | Work with Airtable bases |
+| **Google Docs** | Create, read, and update Google Docs documents |
+| **Notion** | Create, read, update, and delete Notion pages and databases |
+| **Hacker News** | Fetch articles, search stories, and look up users |
 
-### Utilities
+### CMS & Content
 | Node | Description |
 |------|-------------|
-| **Code (JavaScript)** | Run custom JavaScript code |
-| **Code (Python)** | Execute Python scripts |
-| **Filter** | Filter data with conditions |
-| **Transform** | Map and transform data |
-| **Merge** | Combine data from multiple sources |
-| **Split** | Split data into batches |
-| **Wait** | Add delays between steps |
-| **If/Else** | Conditional branching |
-| **Switch** | Multi-way branching |
-| **Loop** | Iterate over arrays |
+| **WordPress** | Create, update, and manage posts, pages, and media via REST API |
+| **Ghost** | Create, update, and manage posts and members using Admin or Content API |
+| **Medium** | Create and publish stories using Integration Tokens |
+| **Contentful** | Manage entries, assets, and content types in Contentful headless CMS |
+| **Storyblok** | Create, update, and publish stories in Storyblok visual CMS |
+| **Strapi** | CRUD operations on Strapi headless CMS content types via REST API |
+| **Webflow** | Manage CMS items, sites, and collections in Webflow |
 
-### Storage & Files
+### E-Commerce & Payments
 | Node | Description |
 |------|-------------|
-| **AWS S3** | Upload/download from S3 buckets |
-| **FTP/SFTP** | File transfer protocol operations |
-| **Read/Write File** | Local file operations |
-| **PDF** | Generate and parse PDFs |
-| **CSV** | Parse and generate CSV files |
+| **Shopify** | Manage products, orders, customers, and inventory |
+| **WooCommerce** | Manage products, orders, and customers on WooCommerce WordPress stores |
+| **Magento** | Manage products, orders, and customers on Magento 2 stores |
+| **Stripe** | Create charges, manage customers, subscriptions, and invoices |
+| **PayPal** | Process payments, manage orders, and handle payouts |
+| **Gumroad** | Manage products, sales, and subscribers on Gumroad |
+| **Tapfiliate** | Track affiliate conversions, manage affiliates, and report on commissions |
+
+### Scheduling & Events
+| Node | Description |
+|------|-------------|
+| **Calendly** | Manage events, invitees, and scheduling links |
+| **Cal.com** | Manage bookings, event types, and availability (open-source scheduling) |
+| **Acuity Scheduling** | Manage appointments, clients, and calendars |
+| **Eventbrite** | Create events, manage attendees, and track ticket sales |
+| **Demio** | Manage webinars, registrants, and sessions |
+| **GoToWebinar** | Create webinars, manage registrants, and track attendance |
+
+### URL Shorteners
+| Node | Description |
+|------|-------------|
+| **Bitly** | Shorten URLs, manage links, and track click analytics |
+| **YOURLS** | Shorten URLs and manage links with your self-hosted YOURLS instance |
+
+### Flow Control
+| Node | Description |
+|------|-------------|
+| **IF** | Branch workflow based on conditions (string, number, date, boolean, array, object) |
+| **Merge** | Merge data from multiple branches with matching, appending, or combining |
+| **Loop Over Items** | Process items one by one or in batches |
+| **Wait** | Pause workflow execution for a specified time or until a specific date |
+| **Filter** | Filter data based on flexible conditions |
+| **Approval** | Wait for manual approval before continuing — supports multi-approver workflows |
+| **No Operation** | Pass input data through unchanged — useful as a placeholder in conditional branches |
+
+### Data Transformation
+| Node | Description |
+|------|-------------|
+| **Code (JavaScript)** | Run custom JavaScript code to transform data |
+| **Set** | Set, map, and reshape data fields with manual or JSON modes |
+| **Combine Items** | Combine field values from many items into arrays, or merge all items into a single list |
+| **Cap Results** | Restrict the number of items passed through — keep first N or last N items |
+| **Deduplicate** | Remove duplicate items based on field comparison or full item comparison |
+| **Reorder** | Sort items by field values, randomly shuffle, or use custom comparator code |
+| **Unwind** | Split an array field inside items into separate items (like MongoDB $unwind) |
+| **Rollup** | Aggregate data with sum, count, average, min, max, append, concatenate across items |
+
+### AI Agent Tools
+| Node | Description |
+|------|-------------|
+| **HTTP Tool** | Make HTTP requests as a tool for AI agents |
+| **Simple Vector Store** | Search or add documents using keyword matching for AI agents |
 
 ---
 

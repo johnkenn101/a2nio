@@ -35,6 +35,17 @@ services:
       # REDIS_URL: "redis://host:6379"
       
       # ============================================
+      # SCALING (Optional)
+      # ============================================
+      # Tune these if you need more capacity.
+      # See docs/VERTICAL_SCALING.md for details.
+      #
+      # A2N_MAX_CONCURRENT_EXECUTIONS: "10"
+      # DATABASE_POOL_SIZE: "10"
+      # A2N_QUEUE_CONCURRENCY: "5"
+      # NODE_OPTIONS: "--max-old-space-size=512"
+      
+      # ============================================
       # AI PROVIDER API KEYS (Optional)
       # ============================================
       # Set these to use AI nodes without configuring in UI

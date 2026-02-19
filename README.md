@@ -97,6 +97,10 @@ docker-compose up -d
 | `DATABASE_URL` | External PostgreSQL connection string | Embedded PostgreSQL |
 | `REDIS_URL` | External Redis connection string | Embedded Redis |
 | `SELF_HOSTED` | Enable unlimited self-hosted mode | `true` |
+| `A2N_MAX_CONCURRENT_EXECUTIONS` | Max parallel workflow runs | `10` |
+| `DATABASE_POOL_SIZE` | PostgreSQL connection pool size | `10` |
+| `A2N_QUEUE_CONCURRENCY` | Scheduled workflow parallelism | `5` |
+| `NODE_OPTIONS` | Node.js flags (e.g. `--max-old-space-size=2048`) | `--max-old-space-size=512` |
 
 ### Using External Database (Production)
 
@@ -448,11 +452,24 @@ docker run -d --name a2n -p 8080:8080 -v a2n-data:/data sudoku1016705/a2n:latest
 
 ---
 
+## �️ Self-Hosted Tools
+
+These features are available exclusively in self-hosted Docker deployments:
+
+| Tool | Description | Guide |
+|------|-------------|-------|
+| **Database Tools** | Backup, restore, migrate to external DB, schema upgrades, purge logs | [Database Tools Guide](docs/DATABASE_TOOLS.md) |
+| **System Monitor** | Live CPU/memory metrics, vertical scaling sliders, quick presets | [Vertical Scaling Guide](docs/VERTICAL_SCALING.md) |
+
+---
+
 ## 📚 Documentation
 
 - **Website:** [https://a2n.io](https://a2n.io)
 - **Documentation:** [https://docs.a2n.io](https://www.a2n.io/tutorials)
 - **Discord Community:** [Join Discord](https://discord.gg/mYH3ynfvhr)
+- **Database Tools:** [Backup, Restore & Migration](docs/DATABASE_TOOLS.md)
+- **Vertical Scaling:** [Performance Tuning](docs/VERTICAL_SCALING.md)
 
 ---
 

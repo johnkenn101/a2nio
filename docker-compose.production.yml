@@ -29,6 +29,12 @@ services:
       OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
       ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
       
+      # Optional: Scaling (see docs/VERTICAL_SCALING.md)
+      # A2N_MAX_CONCURRENT_EXECUTIONS: "25"
+      # DATABASE_POOL_SIZE: "20"
+      # A2N_QUEUE_CONCURRENCY: "10"
+      # NODE_OPTIONS: "--max-old-space-size=2048"
+      
     depends_on:
       postgres:
         condition: service_healthy

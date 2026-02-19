@@ -2,6 +2,32 @@
 
 All notable changes to a2n.io will be documented in this file.
 
+## [1.0.13] - 2025-07-02
+
+### Changed
+- Hidden **Subscription** sidebar item for self-hosted Docker users (not applicable)
+
+---
+
+## [1.0.12] - 2025-07-01
+
+### Changed
+- Hidden **Community** section (Marketplace, Submit Node, My Submissions) for self-hosted Docker users
+
+---
+
+## [1.0.11] - 2025-06-30
+
+### Added
+- **System Monitor** — Live CPU, memory, heap, and active-execution metrics (5-second polling)
+- **Vertical Scaling** — UI sliders to tune Max Concurrent Executions, Database Pool Size, Queue Concurrency, and Node.js Memory
+- **Quick Presets** — One-click Light / Standard / Performance / Heavy capacity profiles
+- **Scaling environment variables** — `A2N_MAX_CONCURRENT_EXECUTIONS`, `DATABASE_POOL_SIZE`, `A2N_QUEUE_CONCURRENCY`, `NODE_OPTIONS`
+- **Database Tools** — Backup, restore, migrate to external DB, schema status & upgrades, purge execution logs (all from the UI)
+- Beginner-friendly documentation inside the System Monitor page
+
+---
+
 ## [1.0.0] - 2026-02-04
 
 ### 🎉 Initial Release

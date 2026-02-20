@@ -484,15 +484,29 @@ docker run -d --name a2n -p 8080:8080 -v a2n-data:/data sudoku1016705/a2n:latest
 
 ---
 
-## �️ Self-Hosted Tools
+## ⚙️ Self-Hosted Tools
 
-These features are available exclusively in self-hosted Docker deployments:
+These features are available exclusively in self-hosted Docker deployments.
+They require a **free license key** from [a2n.io](https://a2n.io) — see [License Activation Guide](docs/LICENSE_ACTIVATION.md).
 
 | Tool | Description | Guide |
 |------|-------------|-------|
+| **Create Custom Node** | Build your own nodes and use them instantly in workflows | — |
 | **Database Tools** | Backup, restore, migrate to external DB, schema upgrades, purge logs | [Database Tools Guide](docs/DATABASE_TOOLS.md) |
 | **System Monitor** | Live CPU/memory metrics, vertical scaling sliders, quick presets | [Vertical Scaling Guide](docs/VERTICAL_SCALING.md) |
 | **Horizontal Scaling** | Run multiple instances with cluster monitoring and auto-discovery | [Horizontal Scaling Guide](docs/HORIZONTAL_SCALING.md) |
+
+### 🔑 License Activation (Required)
+
+To unlock the self-hosted tools above, you need a **free lifetime license key**:
+
+1. Create a free account at [a2n.io/signup](https://a2n.io/signup)
+2. Go to **Settings → Docker License** and generate a key
+3. In your Docker instance, click any gated feature and paste the key
+
+The key is free forever — it's only used to track Docker adoption. Each key binds to one Docker instance. You can generate up to 3 keys per account.
+
+See [docs/LICENSE_ACTIVATION.md](docs/LICENSE_ACTIVATION.md) for the full guide.
 
 ---
 
@@ -501,6 +515,7 @@ These features are available exclusively in self-hosted Docker deployments:
 - **Website:** [https://a2n.io](https://a2n.io)
 - **Documentation:** [https://docs.a2n.io](https://www.a2n.io/tutorials)
 - **Discord Community:** [Join Discord](https://discord.gg/mYH3ynfvhr)
+- **License Activation:** [Free Key Setup](docs/LICENSE_ACTIVATION.md)
 - **Database Tools:** [Backup, Restore & Migration](docs/DATABASE_TOOLS.md)
 - **Vertical Scaling:** [Performance Tuning](docs/VERTICAL_SCALING.md)
 - **Horizontal Scaling:** [Multi-Instance Deployment](docs/HORIZONTAL_SCALING.md)

@@ -2,6 +2,25 @@
 
 All notable changes to a2n.io will be documented in this file.
 
+## [1.0.17] - 2026-02-20
+
+### Added
+- **License Key Activation** — Self-hosted Docker features now require a free license key from a2n.io
+- **Activation Page** — In-app UI to enter, view, and remove your license key
+- **License Gate** — Create Custom Node, Database Tools, and System Monitor are gated until activated
+- **Periodic Validation** — Docker instances validate the key with a2n.io every 6 hours with a built-in grace period
+- **License Activation Guide** — [docs/LICENSE_ACTIVATION.md](docs/LICENSE_ACTIVATION.md)
+
+---
+
+## [1.0.16] - 2026-02-20
+
+### Added
+- **Create Custom Node** — Self-hosted users can build and install custom nodes directly (auto-approved, no review needed)
+- Sidebar item "Create Custom Node" for self-hosted Docker deployments
+
+---
+
 ## [1.0.15] - 2025-07-03
 
 ### Added

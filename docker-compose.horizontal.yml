@@ -1,0 +1,159 @@
+version: '3.8'
+
+# ============================================
+# HORIZONTAL SCALING DEPLOYMENT
+# ============================================
+# Run multiple a2n instances sharing the same
+# database and Redis for increased capacity.
+#
+# See docs/HORIZONTAL_SCALING.md for full guide.
+
+services:
+  # ── Main instance (serves UI + API + processes jobs) ──
+  a2n-main:
+    image: sudoku1016705/a2n:latest
+    container_name: a2n-main
+    ports:
+      - "8080:8080"
+    environment:
+      # External database (REQUIRED for multi-instance)
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-a2n}:${POSTGRES_PASSWORD:-changeme}@postgres:5432/${POSTGRES_DB:-a2n}"
+      REDIS_HOST: redis
+
+      # Security (MUST be identical on all instances)
+      ENCRYPTION_KEY: "${ENCRYPTION_KEY}"
+      JWT_SECRET: "${JWT_SECRET}"
+
+      # Self-hosted mode
+      SELF_HOSTED: "true"
+
+      # Instance identification
+      A2N_INSTANCE_ROLE: "main"
+
+      # Scaling (per-instance limits)
+      A2N_MAX_CONCURRENT_EXECUTIONS: "${A2N_MAX_CONCURRENT_EXECUTIONS:-10}"
+      DATABASE_POOL_SIZE: "${DATABASE_POOL_SIZE:-10}"
+      A2N_QUEUE_CONCURRENCY: "${A2N_QUEUE_CONCURRENCY:-5}"
+      NODE_OPTIONS: "--max-old-space-size=${NODE_MEMORY_MB:-1024}"
+
+      # Optional: AI API keys
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+    networks:
+      - a2n-network
+
+  # ── Worker instances (process queue jobs, no port exposed) ──
+  a2n-worker:
+    image: sudoku1016705/a2n:latest
+    environment:
+      # Same database and Redis as main (REQUIRED)
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-a2n}:${POSTGRES_PASSWORD:-changeme}@postgres:5432/${POSTGRES_DB:-a2n}"
+      REDIS_HOST: redis
+
+      # Security (MUST match main instance exactly)
+      ENCRYPTION_KEY: "${ENCRYPTION_KEY}"
+      JWT_SECRET: "${JWT_SECRET}"
+
+      # Self-hosted mode
+      SELF_HOSTED: "true"
+
+      # Instance identification
+      A2N_INSTANCE_ROLE: "worker"
+
+      # Scaling (per-instance limits — same as main or adjust)
+      A2N_MAX_CONCURRENT_EXECUTIONS: "${A2N_MAX_CONCURRENT_EXECUTIONS:-10}"
+      DATABASE_POOL_SIZE: "${DATABASE_POOL_SIZE:-10}"
+      A2N_QUEUE_CONCURRENCY: "${A2N_QUEUE_CONCURRENCY:-5}"
+      NODE_OPTIONS: "--max-old-space-size=${NODE_MEMORY_MB:-1024}"
+
+      # Optional: AI API keys (must match main)
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    deploy:
+      replicas: ${WORKER_COUNT:-2}
+    restart: unless-stopped
+    networks:
+      - a2n-network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: a2n-postgres
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER:-a2n}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-changeme}"
+      POSTGRES_DB: "${POSTGRES_DB:-a2n}"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-a2n} -d ${POSTGRES_DB:-a2n}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - a2n-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: a2n-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - a2n-network
+
+volumes:
+  postgres-data:
+  redis-data:
+
+networks:
+  a2n-network:
+    driver: bridge
+
+# ============================================
+# QUICK START
+# ============================================
+#
+# 1. Create a .env file:
+#
+#    ENCRYPTION_KEY=<run: openssl rand -hex 32>
+#    JWT_SECRET=<run: openssl rand -hex 32>
+#    POSTGRES_PASSWORD=<your-secure-password>
+#
+#    # Optional overrides:
+#    # WORKER_COUNT=3
+#    # A2N_MAX_CONCURRENT_EXECUTIONS=25
+#    # DATABASE_POOL_SIZE=20
+#    # A2N_QUEUE_CONCURRENCY=10
+#    # NODE_MEMORY_MB=2048
+#
+# 2. Start:
+#    docker compose -f docker-compose.horizontal.yml up -d
+#
+# 3. Open http://localhost:8080
+#    Go to System Monitor to see the cluster status.
+#
+# 4. Scale workers up or down:
+#    docker compose -f docker-compose.horizontal.yml up -d --scale a2n-worker=5
+#
+# ============================================
+# IMPORTANT
+# ============================================
+# - All instances MUST share the same DATABASE_URL
+# - All instances MUST share the same REDIS_HOST
+# - ENCRYPTION_KEY and JWT_SECRET MUST be identical
+# - Each instance opens DATABASE_POOL_SIZE connections
+#   Total connections = (1 main + N workers) × pool size
+#   PostgreSQL default max_connections=100

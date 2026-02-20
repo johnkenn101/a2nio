@@ -2,6 +2,30 @@
 
 All notable changes to a2n.io will be documented in this file.
 
+## [1.0.15] - 2025-07-03
+
+### Added
+- **Expanded horizontal scaling documentation** — 4 new beginner-friendly help topics in System Monitor UI
+- **docker-compose.horizontal.yml** — Ready-to-use multi-instance deployment template with main + worker services
+- Horizontal scaling env var references added to docker-compose.yml and docker-compose.production.yml
+- Decision guide: vertical vs. horizontal scaling
+- Common mistakes to avoid when scaling
+- Horizontal scaling FAQ (6 questions)
+
+---
+
+## [1.0.14] - 2026-02-19
+
+### Added
+- **Horizontal Scaling** — Run multiple a2n instances sharing the same database & Redis
+- **Cluster Monitoring** — Live cluster status showing all instances, CPU, memory, and active executions
+- **Instance Registry** — Automatic instance discovery via Redis heartbeat (10s interval, 30s TTL)
+- **Docker Compose Generator** — Generate multi-instance docker-compose from the System Monitor UI
+- **Environment variables** — `A2N_INSTANCE_ROLE`, `A2N_INSTANCE_ID` for cluster configuration
+- Horizontal scaling documentation and inline help guides
+
+---
+
 ## [1.0.13] - 2025-07-02
 
 ### Changed

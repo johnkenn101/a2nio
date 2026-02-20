@@ -83,6 +83,33 @@ Then run:
 docker-compose up -d
 ```
 
+### Option 3: Multi-Instance (Horizontal Scaling)
+
+For high-traffic deployments, run a2n across multiple containers with a shared database and Redis.
+One container is the **main** (serves UI + processes workflows), the rest are **workers** (process workflows only).
+
+```bash
+# 1. Download the horizontal scaling template
+curl -O https://raw.githubusercontent.com/johnkenn101/a2nio/main/docker-compose.horizontal.yml
+
+# 2. Create a .env file with your secrets
+cat > .env << 'EOF'
+ENCRYPTION_KEY=<run: openssl rand -hex 32>
+JWT_SECRET=<run: openssl rand -hex 32>
+POSTGRES_PASSWORD=your-secure-password
+EOF
+
+# 3. Start the cluster (1 main + 2 workers + PostgreSQL + Redis)
+docker compose -f docker-compose.horizontal.yml up -d
+
+# 4. Scale workers up or down anytime
+docker compose -f docker-compose.horizontal.yml up -d --scale a2n-worker=4
+```
+
+> **Already running a single-instance?** See [Migrating from Single Instance](docs/HORIZONTAL_SCALING.md#migrating-from-single-instance-to-multi-instance) for a step-by-step guide.
+
+See [docs/HORIZONTAL_SCALING.md](docs/HORIZONTAL_SCALING.md) for the full guide.
+
 ---
 
 ## 🔧 Configuration Options
@@ -96,6 +123,11 @@ docker-compose up -d
 | `JWT_SECRET` | Secret for JWT tokens | Auto-generated |
 | `DATABASE_URL` | External PostgreSQL connection string | Embedded PostgreSQL |
 | `REDIS_URL` | External Redis connection string | Embedded Redis |
+| `REDIS_HOST` | Redis hostname (alternative to REDIS_URL) | `localhost` |
+| `REDIS_PORT` | Redis port | `6379` |
+| `REDIS_PASSWORD` | Redis password | None |
+| `A2N_INSTANCE_ROLE` | Instance role label: `main` or `worker` | `main` |
+| `A2N_INSTANCE_ID` | Custom instance identifier for cluster view | Auto-generated |
 | `SELF_HOSTED` | Enable unlimited self-hosted mode | `true` |
 | `A2N_MAX_CONCURRENT_EXECUTIONS` | Max parallel workflow runs | `10` |
 | `DATABASE_POOL_SIZE` | PostgreSQL connection pool size | `10` |
@@ -460,6 +492,7 @@ These features are available exclusively in self-hosted Docker deployments:
 |------|-------------|-------|
 | **Database Tools** | Backup, restore, migrate to external DB, schema upgrades, purge logs | [Database Tools Guide](docs/DATABASE_TOOLS.md) |
 | **System Monitor** | Live CPU/memory metrics, vertical scaling sliders, quick presets | [Vertical Scaling Guide](docs/VERTICAL_SCALING.md) |
+| **Horizontal Scaling** | Run multiple instances with cluster monitoring and auto-discovery | [Horizontal Scaling Guide](docs/HORIZONTAL_SCALING.md) |
 
 ---
 
@@ -470,6 +503,7 @@ These features are available exclusively in self-hosted Docker deployments:
 - **Discord Community:** [Join Discord](https://discord.gg/mYH3ynfvhr)
 - **Database Tools:** [Backup, Restore & Migration](docs/DATABASE_TOOLS.md)
 - **Vertical Scaling:** [Performance Tuning](docs/VERTICAL_SCALING.md)
+- **Horizontal Scaling:** [Multi-Instance Deployment](docs/HORIZONTAL_SCALING.md)
 
 ---
 

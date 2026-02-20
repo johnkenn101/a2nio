@@ -46,6 +46,15 @@ services:
       # NODE_OPTIONS: "--max-old-space-size=512"
       
       # ============================================
+      # HORIZONTAL SCALING (Optional)
+      # ============================================
+      # For multi-instance setups, use docker-compose.horizontal.yml instead.
+      # See docs/HORIZONTAL_SCALING.md for the full guide.
+      #
+      # A2N_INSTANCE_ROLE: "main"
+      # A2N_INSTANCE_ID: "custom-id"
+      
+      # ============================================
       # AI PROVIDER API KEYS (Optional)
       # ============================================
       # Set these to use AI nodes without configuring in UI

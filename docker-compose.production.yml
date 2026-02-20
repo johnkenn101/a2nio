@@ -35,6 +35,10 @@ services:
       # A2N_QUEUE_CONCURRENCY: "10"
       # NODE_OPTIONS: "--max-old-space-size=2048"
       
+      # Optional: Horizontal scaling label (see docs/HORIZONTAL_SCALING.md)
+      # For multi-instance, use docker-compose.horizontal.yml instead.
+      # A2N_INSTANCE_ROLE: "main"
+      
     depends_on:
       postgres:
         condition: service_healthy
